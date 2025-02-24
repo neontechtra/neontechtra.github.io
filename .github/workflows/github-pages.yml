@@ -26,7 +26,12 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Build with Jekyll
-        run: bundle exec jekyll build --baseurl ""
+        env:
+          JEKYLL_ENV: production
+        run: |
+          bundle config set deployment 'true'
+          bundle install
+          bundle exec jekyll build --baseurl ""
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:

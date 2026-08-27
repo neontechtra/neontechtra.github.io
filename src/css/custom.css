@@ -4,7 +4,19 @@
  * work well for content-centric websites.
  */
 
-/* You can override the default Infima variables here. */
+/* Anti-aliasing and crisp font rendering across the entire site */
+html, body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+*, *::before, *::after {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Base Light Theme */
 :root {
   --ifm-color-primary: #0088cc;
   --ifm-color-primary-dark: #007bb8;
@@ -13,7 +25,8 @@
   --ifm-color-primary-light: #0095de;
   --ifm-color-primary-lighter: #009ce9;
   --ifm-color-primary-lightest: #1ab0ff;
-  --ifm-code-font-size: 95%;
+  --ifm-code-font-size: 0.9rem;
+  --ifm-font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
 }
 
@@ -33,20 +46,65 @@
   background-color: rgba(0, 210, 255, 0.3);
 }
 
+/* Navbar Brand & Logo Stabilization (prevents text shift/jitter on hover) */
+.navbar__brand {
+  display: flex;
+  align-items: center;
+  margin-right: 1.5rem;
+}
+
+.navbar__title {
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  /* Prevent subpixel reflow and blurry raster snap */
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
 .navbar__logo {
   display: flex;
   align-items: center;
+  justify-content: center;
+  margin-right: 0.6rem;
+  width: 34px;
+  height: 34px;
+  flex-shrink: 0;
 }
 
 .navbar__logo img {
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
   object-fit: cover;
   border: 2px solid var(--ifm-color-primary);
-  box-shadow: 0 0 10px rgba(0, 210, 255, 0.3);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 0 8px rgba(0, 210, 255, 0.35);
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform, box-shadow;
 }
 
+.navbar__brand:hover .navbar__logo img,
 .navbar__logo img:hover {
-  transform: scale(1.08);
-  box-shadow: 0 0 16px rgba(0, 210, 255, 0.6);
+  transform: scale(1.08) translateZ(0);
+  box-shadow: 0 0 14px rgba(0, 210, 255, 0.7);
+}
+
+/* Sidebar & Navigation Crispness */
+.menu__link {
+  transition: background-color var(--ifm-transition-fast) ease, color var(--ifm-transition-fast) ease;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+.table-of-contents__link {
+  transition: color var(--ifm-transition-fast) ease;
+}
+
+/* Code & Pre styling for crisp edges */
+pre, code {
+  text-rendering: optimizeLegibility;
+  font-feature-settings: "liga" 0;
 }
